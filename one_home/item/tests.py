@@ -40,6 +40,19 @@ class RoomFactory(factory.django.DjangoModelFactory):
     name = 'Bedroom'
 
 
+class ItemFactory(factory.django.DjangoModelFactory):
+    """Factory for making an item for testing."""
+
+    class Meta:
+        """Meta class."""
+
+        model = Item
+
+    name = 'Sink'
+    description = 'A sink, like to wash your hands with.'
+    cost = 10.00
+
+
 class BuyerTestCase(TestCase):
     """Tests for the buyer model."""
 
@@ -92,6 +105,40 @@ class RoomTestCase(TestCase):
         """Make sure buyers first name is correct."""
         room = Room.objects.all()[0]
         assert room.name == 'Bedroom'
+
+
+class ItemTestCase(TestCase):
+    """Test case for Item model."""
+
+    def setUp(self):
+        """Set up item model to be tested."""
+        self.item = ItemFactory.create()
+        self.item.save()
+
+    def test_item_exists(self):
+        """Make sure item model is saved in database."""
+        items = Item.objects.all()
+        assert len(items) == 1
+
+    def test_item_name_correct(self):
+        """Make sure item name is correct."""
+        item = Item.objects.all()[0]
+        assert item.name == 'Sink'
+
+    def test_item_description_correct(self):
+        """Make sure item description is correct."""
+        item = Item.objects.all()[0]
+        assert item.description == 'A sink, like to wash your hands with.'
+
+    def test_item_cost_correct(self):
+        """Make sure item cost is correct."""
+        item = Item.objects.all()[0]
+        assert item.cost == 10.00
+
+    def test_item_purchased_default_false(self):
+        """Make sure an item's purchased attribute is false by default."""
+        item = Item.objects.all()[0]
+        assert item.purchased is False
 
 
 # class ItemTestCase(TestCase):
