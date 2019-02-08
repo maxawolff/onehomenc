@@ -29,6 +29,17 @@ class BuyerFactory2(factory.django.DjangoModelFactory):
     first_name = 'Bill'
 
 
+class RoomFactory(factory.django.DjangoModelFactory):
+    """Factory for making a second buyer for testing."""
+
+    class Meta:
+        """Meta class."""
+
+        model = Room
+
+    name = 'Bedroom'
+
+
 class BuyerTestCase(TestCase):
     """Tests for the buyer model."""
 
@@ -62,6 +73,25 @@ class BuyerTestCase(TestCase):
     def tearDown(self):
         """Delete the buyer object after it is used."""
         Buyer.objects.all()[0].delete()
+
+
+class RoomTestCase(TestCase):
+    """Test case for Room model."""
+
+    def setUp(self):
+        """Set up room model to be tested."""
+        self.room = RoomFactory.create()
+        self.room.save()
+
+    def test_room_exists(self):
+        """Make sure room model is saved in database."""
+        rooms = Room.objects.all()
+        assert len(rooms) == 1
+
+    def test_room_name_correct(self):
+        """Make sure buyers first name is correct."""
+        room = Room.objects.all()[0]
+        assert room.name == 'Bedroom'
 
 
 # class ItemTestCase(TestCase):
