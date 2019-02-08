@@ -30,10 +30,10 @@ class Item(models.Model):
     purchased = models.BooleanField(default=False)
     cost = models.FloatField()
     for_room = models.ForeignKey(Room,
-                                 onDelete=models.Cascade,
+                                 on_delete=models.CASCADE,
                                  blank=True,
                                  null=True)
     purchased_by = models.ForeignKey(Buyer,
-                                     onDelete=models.Cascade,
+                                     on_delete=models.CASCADE,
                                      blank=True,
                                      null=True)
