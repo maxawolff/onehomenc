@@ -7,4 +7,4 @@ class ItemTestCase(TestCase):
 
     def test_test(self):
         """A sample test."""
-        assert 1 == 1
+        assert 1 == 10
