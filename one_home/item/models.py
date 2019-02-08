@@ -2,6 +2,15 @@
 from django.db import models
 
 
+class Buyer(models.Model):
+    """.Model for room of a house, will contain items."""
+
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=500)
+    # purchases =
+
+
 class Room(models.Model):
     """.Model for room of a house, will contain items."""
 
@@ -24,3 +33,7 @@ class Item(models.Model):
                                  onDelete=models.Cascade,
                                  blank=True,
                                  null=True)
+    purchased_by = models.ForeignKey(Buyer,
+                                     onDelete=models.Cascade,
+                                     blank=True,
+                                     null=True)
