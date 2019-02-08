@@ -14,17 +14,19 @@ class BuyerFactory(factory.django.DjangoModelFactory):
         model = Buyer
 
     first_name = 'Max'
+    last_name = 'Wolff'
+    address = '2901 Oakley Woods Lane, Apex NC, 27539'
 
 
-# class BuyerFactory2(factory.django.DjangoModelFactory):
-#     """Factory for making a second buyer for testing."""
+class BuyerFactory2(factory.django.DjangoModelFactory):
+    """Factory for making a second buyer for testing."""
 
-#     class Meta:
-#         """Meta class."""
+    class Meta:
+        """Meta class."""
 
-#         model = Buyer
+        model = Buyer
 
-#     first_name = 'Bill'
+    first_name = 'Bill'
 
 
 class BuyerTestCase(TestCase):
@@ -41,6 +43,25 @@ class BuyerTestCase(TestCase):
         buyers = Buyer.objects.all()
         assert len(buyers) == 1
         # pdb.set_trace()
+
+    def test_buyer_first_name_correct(self):
+        """Make sure buyers first name is correct."""
+        buyer = Buyer.objects.all()[0]
+        assert buyer.first_name == 'Max'
+
+    def test_buyer_last_name_correct(self):
+        """Make sure buyers last name is correct."""
+        buyer = Buyer.objects.all()[0]
+        assert buyer.last_name == 'Wolff'
+
+    def test_buyer_address_correct(self):
+        """Make sure buyers address is correct."""
+        buyer = Buyer.objects.all()[0]
+        assert buyer.address == '2901 Oakley Woods Lane, Apex NC, 27539'
+
+    def tearDown(self):
+        """Delete the buyer object after it is used."""
+        Buyer.objects.all()[0].delete()
 
 
 # class ItemTestCase(TestCase):
