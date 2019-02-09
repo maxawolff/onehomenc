@@ -4,7 +4,9 @@
     {% for room in rooms %}
         <p>{{ room.name }}</p>
         {% for item in room.item_set.all %}
+            {% if item.purchased == False%}
             <ul>{{item.name}} - $ {{item.cost}}</ul>
+            {% endif %}
         {% endfor %}
     {% endfor %}
 {% endblock %}
