@@ -6,6 +6,8 @@
         {% for item in room.item_set.all %}
             {% if item.purchased == False%}
             <ul>{{item.name}} - $ {{item.cost}}</ul>
+            {% else %}
+            <ul>{{item.name}} - sold out</ul>
             {% endif %}
         {% endfor %}
     {% endfor %}
