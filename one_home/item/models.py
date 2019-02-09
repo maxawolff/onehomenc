@@ -8,6 +8,10 @@ class Buyer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     address = models.CharField(max_length=500)
+
+    def __str__(self):
+        """Change how a buyer is displayed."""
+        return (self.first_name + ' ' + self.last_name)
     # purchases =
 
 
@@ -15,6 +19,10 @@ class Room(models.Model):
     """.Model for room of a house, will contain items."""
 
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        """Change how a room is displayed."""
+        return (self.name)
 
 
 class Item(models.Model):
@@ -37,3 +45,7 @@ class Item(models.Model):
                                      on_delete=models.CASCADE,
                                      blank=True,
                                      null=True)
+
+    def __str__(self):
+        """Change how an item is displayed."""
+        return (self.name)

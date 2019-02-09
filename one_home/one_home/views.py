@@ -11,5 +11,5 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         """Get specific data for homepage."""
         context = super(HomeView, self).get_context_data(**kwargs)
-        pdb.set_trace()
+        # pdb.set_trace()
         return context
