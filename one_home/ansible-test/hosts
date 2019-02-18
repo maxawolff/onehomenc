@@ -1,0 +1,6 @@
+[aws_remote]
+18.207.187.97
+
+[aws_remote:vars]
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/wisgi2019.pem

@@ -1,0 +1,31 @@
+- hosts: aws_remote
+  become: yes
+  become_method: sudo
+  remote_user: ubuntu
+
+  tasks:
+    - name: update the Ubuntu system and services
+      apt: update_cache=yes
+
+    - name: install basic unix level services
+      apt: name={{ item }} state=latest
+      with_items:
+        - nginx
+        - python3
+        - python3-pip
+        - python3.4-venv
+        - git
+        - gunicorn
+
+    - name: clone the onehome app to the home directory
+      git: clone=yes
+           repo=https://github.com/maxawolff/onehomenc
+           dest=/home/ubuntu/onehomenc
+
+    - name: Create a virtual environment in the onehomenc directory
+      command: python3 -m venv /home/ubuntu/onehomenc/ENV
+
+    - name: install onehome app
+      pip:
+        virtualenv=/home/ubuntu/onehomenc/ENV
+        requirements=/home/ubuntu/onehomenc/requirements.pip
