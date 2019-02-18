@@ -41,3 +41,14 @@
       pip:
         virtualenv=/home/ubuntu/onehomenc/ENV
         requirements=/home/ubuntu/onehomenc/requirements.pip
+
+    - name: Register the old default file
+      stat: path=/etc/nginx/sites-available/default.old
+      register: default_stat
+
+    - name: Rename old default file if a copy doesn't already exist
+      command: mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.old
+      when: not default_stat.stat.exists
+
+    - name: Create a new default file for nginx
+      template: src=~/coding/onehomenc/one_home/ansible_test/nginx_config.jinja2 dest=/etc/nginx/sites-available/default
