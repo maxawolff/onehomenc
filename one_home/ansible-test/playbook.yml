@@ -15,12 +15,24 @@
         - python3-pip
         - python3.4-venv
         - git
+        - python3-dev
+        - libpq-dev
+        - libtiff5-dev
+        - libjpeg8-dev
+        - zlib1g-dev
+        - libfreetype6-dev
+        - liblcms2-dev
+        - libwebp-dev
+        - tcl8.6-dev
+        - tk8.6-dev
+        - python-tk
         - gunicorn
 
     - name: clone the onehome app to the home directory
       git: clone=yes
            repo=https://github.com/maxawolff/onehomenc
            dest=/home/ubuntu/onehomenc
+           version=deployment_test
 
     - name: Create a virtual environment in the onehomenc directory
       command: python3 -m venv /home/ubuntu/onehomenc/ENV
