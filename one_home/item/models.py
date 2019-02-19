@@ -25,6 +25,12 @@ class Room(models.Model):
         return (self.name)
 
 
+class Cart(models.Model):
+    """Model for shopping cart."""
+
+    purchaser = models.OneToOneField(Buyer, on_delete=models.CASCADE)
+
+
 class Item(models.Model):
     """Model for item in store."""
 
@@ -45,6 +51,10 @@ class Item(models.Model):
                                      on_delete=models.CASCADE,
                                      blank=True,
                                      null=True)
+    in_cart = models.ForeignKey(Cart,
+                                on_delete=models.SET_NULL,
+                                blank=True,
+                                null=True)
 
     def __str__(self):
         """Change how an item is displayed."""
