@@ -20,5 +20,5 @@ from one_home.views import HomeView, CheckoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='homepage'),
-    path('checkout/', CheckoutView.as_view(), name='checkout')
+    path('checkout/<pk>', CheckoutView.as_view(), name='checkout')
 ]

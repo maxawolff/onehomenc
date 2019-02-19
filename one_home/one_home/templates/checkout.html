@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <p>Purchaser Name: {{cart.purchaser}}</p>
+    <ul>
+        {% for item in cart.item_set.all %}
+            <li>{{item.name}} - ${{item.cost}}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
