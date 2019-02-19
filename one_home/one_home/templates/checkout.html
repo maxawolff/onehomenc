@@ -1,10 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<script src="https://js.braintreegateway.com/web/dropin/1.16.0/js/dropin.min.js"></script>
     <p>Purchaser Name: {{cart.purchaser}}</p>
     <ul>
         {% for item in cart.item_set.all %}
             <li>{{item.name}} - ${{item.cost}}</li>
         {% endfor %}
+        <li>Total - ${{total}}</li>
     </ul>
+    <form id="payment-form" method="post" action="/process/">
+        <div id="bt-dropin"></div>
+        <input type="hidden" id="nonce" name="payment_method_nonce">
+        <button class="button" type="submit" id="submit-button">Purchase</button>
+    </form>
+    <script>
+      var form = document.querySelector('#payment-form');
+      var client_token = '{{ client_token }}';
+      braintree.dropin.create({
+        authorization: client_token,
+        container: '#bt-dropin',
+        paypal: {
+          flow: 'vault'
+        }
+      }, function (createErr, instance) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          instance.requestPaymentMethod(function (err, payload) {
+            if (err) {
+              console.log('Error', err);
+              return;
+            }
+            // Add the nonce to the form and submit
+            document.querySelector('#nonce').value = payload.nonce;
+            form.submit();
+          });
+        });
+      });
+    </script>
 {% endblock %}
