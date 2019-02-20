@@ -1,7 +1,8 @@
 """Views for one home website."""
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, View
 from item.models import Room, Cart
 import braintree
+from django.shortcuts import redirect
 # from gateway import generate_client_token, transact, find_transaction
 import pdb
 
@@ -48,13 +49,34 @@ class CheckoutView(DetailView):
         return context
 
 
-class ProcessPaymentView(TemplateView):
+class ProcessPaymentView(View):
     """View that will process the payment info and redirect."""
 
-    template_name = 'home.html'
+    # template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        """Get specific data for homepage."""
-        context = super(ProcessPaymentView, self).get_context_data(**kwargs)
-        pdb.set_trace()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     """Get specific data for homepage."""
+    #     context = super(ProcessPaymentView, self).get_context_data(**kwargs)
+    #     pdb.set_trace()
+    #     return context
+
+    def post(self, request):
+        """Trying to capture payment info."""
+        body = request.body.decode('utf-8')
+        blist = body.split('&')
+        nonce = blist[1].split('=')[1]
+        amount = blist[2].split('=')[1]
+        result = gateway.transaction.sale({'amount': amount,
+                                           'payment_method_nonce': nonce,
+                                           'options': {"submit_for_settlement": True}})
+        # pdb.set_trace()
+        if result.is_success or result.transaction:
+            return redirect('success')
+        else:
+            pass
+
+
+class SuccessView(TemplateView):
+    """View to show a successfull transaction."""
+
+    template_name = 'success.html'
